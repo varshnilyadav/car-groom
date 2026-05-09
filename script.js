@@ -80,3 +80,29 @@ if (statsEl) {
     });
   }, { threshold: 0.3 }).observe(statsEl);
 }
+
+// TESTIMONIALS DRAG-TO-SCROLL
+const trackWrapper = document.querySelector('.testimonials-track-wrapper');
+if (trackWrapper) {
+  let isDown = false, startX, scrollLeft;
+  trackWrapper.addEventListener('mousedown', e => {
+    isDown = true;
+    trackWrapper.style.cursor = 'grabbing';
+    startX = e.pageX - trackWrapper.offsetLeft;
+    scrollLeft = trackWrapper.scrollLeft;
+  });
+  trackWrapper.addEventListener('mouseleave', () => { isDown = false; trackWrapper.style.cursor = 'grab'; });
+  trackWrapper.addEventListener('mouseup', () => { isDown = false; trackWrapper.style.cursor = 'grab'; });
+  trackWrapper.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - trackWrapper.offsetLeft;
+    trackWrapper.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+}
+
+// FLOATING BUTTON HOVER
+document.querySelectorAll('.insta-float, .whatsapp-float').forEach(btn => {
+  btn.addEventListener('mouseenter', () => { btn.style.transform = 'scale(1.12)'; });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = 'scale(1)'; });
+});
